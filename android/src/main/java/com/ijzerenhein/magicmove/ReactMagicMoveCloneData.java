@@ -1,60 +1,55 @@
 package com.ijzerenhein.magicmove;
 
-import java.util.Map;
-
 import android.view.View;
 import android.graphics.RectF;
 
-public class ReactMagicMoveCloneData extends Object {
-    private String mSharedId;
-    private View mView;
-    private RectF mLayout;
-    private int mOptions;
-    private int mRefCount;
+public class ReactMagicMoveCloneData {
+    private final String sharedId;
+    private final View view;
+    private final RectF layout;
+    private final int options;
+    private int refCount;
 
     public ReactMagicMoveCloneData(String sharedId, View view, RectF layout, int options) {
-        mSharedId = sharedId;
-        mLayout = layout;
-        mView = view;
-        mOptions = options;
-        mRefCount = 1;
+        this.sharedId = sharedId;
+        this.view = view;
+        this.layout = layout;
+        this.options = options;
+        this.refCount = 1;
     }
 
     public String getSharedId() {
-        return mSharedId;
+        return sharedId;
     }
 
     public View getView() {
-        return mView;
+        return view;
     }
 
     public RectF getLayout() {
-        return mLayout;
+        return layout;
     }
 
     public int getOptions() {
-        return mOptions;
+        return options;
     }
 
-    public int getRefCount() {
-        return mRefCount;
+    int getRefCount() {
+        return refCount;
     }
 
-    public void setRefCount(int refCount) {
-        mRefCount = refCount;
+    void setRefCount(int refCount) {
+        this.refCount = refCount;
     }
 
     public String getKey() {
-        return keyForSharedId(mSharedId, mOptions);
+        return keyForSharedId(sharedId, options);
     }
 
-    public static String keyForSharedId(String sharedId, int options) {
-        String type;
-        if ((options & ReactMagicMoveCloneOption.SCENE) != 0) {
-            type = ((options & ReactMagicMoveCloneOption.TARGET) != 0) ? "TargetScene" : "SourceScene";
-        } else {
-            type = ((options & ReactMagicMoveCloneOption.TARGET) != 0) ? "TargetComponent" : "SourceComponent";
-        }
+    private static String keyForSharedId(String sharedId, int options) {
+        String type = ((options & ReactMagicMoveCloneOption.SCENE) != 0) ?
+                (((options & ReactMagicMoveCloneOption.TARGET) != 0) ? "TargetScene" : "SourceScene") :
+                (((options & ReactMagicMoveCloneOption.TARGET) != 0) ? "TargetComponent" : "SourceComponent");
         return type + ":" + sharedId;
     }
 }
